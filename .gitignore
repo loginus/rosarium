@@ -1,0 +1,13 @@
+# IDE files #
+#############
+.~lock.*
+.buildpath
+.idea
+.project
+.pydevproject
+.settings
+composer.lock
+.Rhistory
+*.pyc
+*.log
+cyberRosary/cyberRosary/settings.py
