@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 from django.utils.translation import ugettext as _
 
 from django.db import models
+import uuid
 
 
 # Create your models here.
@@ -32,7 +33,7 @@ class Intension(models.Model):
     universal_intension = models.CharField(max_length=2047)
     evangelisation_intension = models.CharField(max_length=2047)
     pcm_intension = models.CharField(max_length=2047)
-    message = models.TextField()
+    message = models.TextField(null=True, blank=True)
 
     def __unicode__(self):
         return str(self.start_date)
@@ -52,6 +53,12 @@ class PersonIntension(models.Model):
     mystery = models.ForeignKey(Mystery)
     downloaded = models.DateTimeField(null=True, blank=True)
     code = models.CharField(max_length=63, unique=True)
+
+    def save(self):
+        if self.pk is None:
+            self.code = str(uuid.uuid4())
+        super(PersonIntension, self).save()
+
 
     def __unicode__(self):
         return self.code
