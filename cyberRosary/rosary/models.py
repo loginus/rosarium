@@ -12,13 +12,14 @@ class Mystery(models.Model):
     LUMINOUS = 'luminous'
     SORROWFUL = 'sorrowful'
     GLORIOUS = 'glorious'
-    GROUPS = (
-        (JOYFUL, _("Joyful Mysteries")),
-        (LUMINOUS, _("Luminous Mysteries")),
-        (SORROWFUL, _("Sorrowful Mysteries")),
-        (GLORIOUS, _("Glorious Mysteries")))
+    GROUPS = {
+        JOYFUL: _("Joyful Mystery"),
+        LUMINOUS: _("Luminous Mystery"),
+        SORROWFUL: _("Sorrowful Mystery"),
+        GLORIOUS: _("Glorious Mystery"),
+    }
     title = models.CharField(max_length=200, unique=True)
-    group = models.CharField(max_length=15, choices=GROUPS)
+    group = models.CharField(max_length=15, choices=GROUPS.items())
     number = models.SmallIntegerField(unique=True)
     image_path = models.ImageField()
     quote = models.TextField()
