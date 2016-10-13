@@ -18,6 +18,7 @@ from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image
 from reportlab.platypus import Table
 
+from cyberRosary import settings
 from rosary.models import PersonIntension, Mystery
 
 logger = logging.getLogger(__name__)
