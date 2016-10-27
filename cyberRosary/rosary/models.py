@@ -31,18 +31,20 @@ class Mystery(models.Model):
 
 class Intension(models.Model):
     start_date = models.DateField(unique=True)
+    end_date = models.DateField(unique=True)
     universal_intension = models.CharField(max_length=2047)
     evangelisation_intension = models.CharField(max_length=2047)
     pcm_intension = models.CharField(max_length=2047)
     message = models.TextField(null=True, blank=True)
 
     def __unicode__(self):
-        return str(self.start_date)
+        return str(self.start_date)+" - "+str(self.end_date)
 
 
 class Person(models.Model):
     name = models.CharField(max_length=127)
     email = models.EmailField(unique=True)
+    active = models.BooleanField(null=False, default=True)
 
     def __unicode__(self):
         return self.name

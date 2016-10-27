@@ -19,7 +19,7 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image
 from reportlab.platypus import Table
 
 from cyberRosary import settings
-from rosary.models import PersonIntension, Mystery
+from rosary.models import PersonIntension, Mystery, Intension
 
 logger = logging.getLogger(__name__)
 
@@ -46,7 +46,7 @@ def printout(request, unique_code):
                        boldItalic='DejaVuSerifBI')
 
     doc = SimpleDocTemplate(buffer, pagesize=letter,
-                            rightMargin=72, leftMargin=72,
+                            rightMargin=54, leftMargin=54,
                             topMargin=36, bottomMargin=18, title=title)
 
     width = doc.pagesize[0] - doc.leftMargin - doc.rightMargin
@@ -57,6 +57,7 @@ def printout(request, unique_code):
     # group = pi.mystery.group
     user = pi.person.name
     start_date = pi.intension.start_date
+    end_date = pi.intension.end_date
     quote = pi.mystery.quote
     meditation = pi.mystery.meditation
     intension1 = pi.intension.universal_intension
@@ -64,7 +65,7 @@ def printout(request, unique_code):
     intension3 = pi.intension.pcm_intension
     number_group = determine_number_group(pi.mystery.group, pi.mystery.number)
 
-    im = get_image(logo, (doc.width / 2)*.9)
+    im = get_image(logo, (doc.width / 2) * .9)
 
     styles = getSampleStyleSheet()
     styles.add(ParagraphStyle(name='CenterP', alignment=enums.TA_CENTER, fontName='DejaVuSerif', fontSize=10))
@@ -117,9 +118,8 @@ def printout(request, unique_code):
 
     # date
     story.append(
-        Paragraph(u'<font color="red">Tajemnicę należy odmawiać od %s</font>' % str(start_date), styles["CenterP"]))
+        Paragraph(u'<font color="red">Tajemnicę należy odmawiać od %s do %s</font>' % (str(start_date), str(end_date)), styles["CenterP"]))
     story.append(Spacer(1, 6))
-
 
     doc.build(story)
 
@@ -136,8 +136,14 @@ def printout(request, unique_code):
 
 
 def index(request):
+    from django.utils.datetime_safe import datetime
     logger.debug("index started")
-    pis = PersonIntension.objects.all().prefetch_related('person', 'mystery')
+    today = datetime.today()
+    intension = Intension.objects.filter(start_date__lte=today).order_by('-start_date')[:1]
+    if not intension:
+        pis = []
+    else:
+        pis = PersonIntension.objects.filter(intension=intension).prefetch_related('person', 'mystery')
     logger.debug("found: %d" % len(pis))
     context = {'pis': pis}
 
