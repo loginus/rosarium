@@ -32,9 +32,9 @@ class Mystery(models.Model):
 class Intension(models.Model):
     start_date = models.DateField(unique=True)
     end_date = models.DateField(unique=True)
-    universal_intension = models.CharField(max_length=2047)
-    evangelisation_intension = models.CharField(max_length=2047)
-    pcm_intension = models.CharField(max_length=2047)
+    universal_intension = models.TextField(max_length=2047)
+    evangelisation_intension = models.TextField(max_length=2047)
+    pcm_intension = models.TextField(max_length=2047)
     message = models.TextField(null=True, blank=True)
 
     def __unicode__(self):

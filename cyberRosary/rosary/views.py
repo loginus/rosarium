@@ -139,7 +139,7 @@ def index(request):
     from django.utils.datetime_safe import datetime
     logger.debug("index started")
     today = datetime.today()
-    intension = Intension.objects.filter(start_date__lte=today).order_by('-start_date')[:1]
+    intension = Intension.objects.filter(start_date__lte=today).order_by('-start_date')[0]
     if not intension:
         pis = []
     else:
