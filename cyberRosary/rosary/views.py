@@ -6,6 +6,8 @@ from io import BytesIO
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
+from django.utils.translation import ugettext as _
+from django.views.decorators.cache import cache_page
 from reportlab.graphics.shapes import Drawing, Line
 from reportlab.lib import enums
 from reportlab.lib import utils
@@ -18,12 +20,12 @@ from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image
 from reportlab.platypus import Table
 
-from cyberRosary import settings
-from rosary.models import PersonIntension, Mystery, Intension
+from rosary.models import PersonIntension, Intension
 
 logger = logging.getLogger(__name__)
 
 
+@cache_page(3600 * 24 * 20)
 def printout(request, unique_code):
     pi = get_object_or_404(PersonIntension, code=unique_code)  # type: PersonIntension
 
@@ -58,19 +60,21 @@ def printout(request, unique_code):
     user = pi.person.name
     start_date = pi.intension.start_date
     end_date = pi.intension.end_date
-    quote = pi.mystery.quote
-    meditation = pi.mystery.meditation
+    quote = prepare_text(pi.mystery.quote)
+    meditation = prepare_text(pi.mystery.meditation)
     intension1 = pi.intension.universal_intension
     intension2 = pi.intension.evangelisation_intension
     intension3 = pi.intension.pcm_intension
     number_group = pi.mystery.number_group()
 
+    normal_font_size = determine_font_size(meditation, quote)
+
     im = get_image(logo, (doc.width / 2) * .9)
 
     styles = getSampleStyleSheet()
     styles.add(ParagraphStyle(name='CenterP', alignment=enums.TA_CENTER, fontName='DejaVuSerif', fontSize=10))
-    styles.add(ParagraphStyle(name='JustifyP', alignment=enums.TA_JUSTIFY, fontName='DejaVuSerif', fontSize=9))
-    styles.add(ParagraphStyle(name='NormalP', alignment=enums.TA_LEFT, fontName='DejaVuSerif', fontSize=9))
+    styles.add(
+        ParagraphStyle(name='NormalP', alignment=enums.TA_LEFT, fontName='DejaVuSerif', fontSize=normal_font_size))
     styles.add(ParagraphStyle(name='H2', alignment=enums.TA_CENTER, fontName='DejaVuSerifBd', fontSize=10))
     styles.add(ParagraphStyle(name='H1', alignment=enums.TA_CENTER, fontName='DejaVuSerifBd', fontSize=12))
 
@@ -97,31 +101,35 @@ def printout(request, unique_code):
     meditationParagraph = Paragraph(meditation, styles["NormalP"])
     data = [[meditationParagraph, im]]
 
-    t = Table(data, style=[('ALIGN', (1, 0), (1, 0), 'CENTER'),
-                           ('VALIGN', (1, 0), (1, 0), 'MIDDLE'),
-                           ])
+    t = Table(data, style=[
+        ('VALIGN', (0, 0), (0, 0), 'TOP'),
+        ('ALIGN', (1, 0), (1, 0), 'CENTER'),
+        ('VALIGN', (1, 0), (1, 0), 'MIDDLE'),
+    ])
 
     story.append(t)
 
     story.append(Spacer(1, 12))
 
-    story.append(Paragraph(u"<b>Intencja papieska ogólna</b> %s" % intension1, styles["NormalP"]))
+    story.append(Paragraph(_("<b>General Papal Intention:</b> %s") % intension1, styles["NormalP"]))
     story.append(Spacer(1, 12))
 
-    story.append(Paragraph(u"<b>Intencja papieska ewangelizacyjna</b> %s" % intension2, styles["NormalP"]))
+    story.append(Paragraph(_("<b>Evanelisation Papal Intention:</b> %s") % intension2, styles["NormalP"]))
     story.append(Spacer(1, 12))
 
-    story.append(Paragraph(u"<b>Intencja PMK</b> %s" % intension3, styles["NormalP"]))
+    story.append(Paragraph(_("<b>Intension of Polish Catholic Mission:</b> %s") % intension3, styles["NormalP"]))
     story.append(Spacer(1, 12))
 
     story.append(d)
+    story.append(Spacer(1, 6))
 
     # date
     story.append(
-        Paragraph(u'<font color="red">Tajemnicę należy odmawiać od %s do %s</font>' % (str(start_date), str(end_date)),
-                  styles["CenterP"]))
-    story.append(Spacer(1, 6))
-
+        Paragraph(
+            '<font color="red">'
+            + _('Mystery ought to be prayed from %(date_from)s to %(date_to)s')
+            % {'date_from': str(start_date), 'date_to': str(end_date)}
+            + '</font>', styles["CenterP"]))
     doc.build(story)
 
     pdf = buffer.getvalue()
@@ -144,7 +152,8 @@ def index(request):
     if not intension:
         pis = []
     else:
-        pis = PersonIntension.objects.filter(intension=intension).order_by('mystery__number').prefetch_related('person', 'mystery')
+        pis = PersonIntension.objects.filter(intension=intension).order_by('mystery__number').prefetch_related('person',
+                                                                                                               'mystery')
     logger.debug("found: %d" % len(pis))
     context = {'pis': pis}
 
@@ -156,3 +165,16 @@ def get_image(path, width=1 * cm):
     iw, ih = img.getSize()
     aspect = ih / float(iw)
     return Image(path, width=width, height=(width * aspect))
+
+
+def determine_font_size(meditation, quote):
+    normal_font_size = 9
+    if len(quote) + 2 * len(meditation) > 3500:
+        normal_font_size = 8
+    return normal_font_size
+
+
+def prepare_text(text):
+    if text:
+        return text.strip().replace('\n', '<br/>')
+    return text

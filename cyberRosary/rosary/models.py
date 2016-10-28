@@ -1,8 +1,9 @@
 from __future__ import unicode_literals
-from django.utils.translation import ugettext as _
+
+import uuid
 
 from django.db import models
-import uuid
+from django.utils.translation import ugettext as _
 
 
 # Create your models here.

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-13 22:42+0200\n"
+"POT-Creation-Date: 2016-10-28 23:02+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -55,6 +55,30 @@ msgstr "Tajemnica"
 msgid "Date"
 msgstr "Data"
 
-#: rosary/templates/rosary/index.html:24
+#: rosary/templates/rosary/index.html:23
+msgid "Not downloaded"
+msgstr "Nie pobrana"
+
+#: rosary/templates/rosary/index.html:32
 msgid "No e-Rose members are available."
 msgstr "Brak członków e-Róży"
+
+#: rosary/views.py:113
+#, python-format
+msgid "<b>General Papal Intention:</b> %s"
+msgstr "<b>Intencja papieska ogólna:</b> %s"
+
+#: rosary/views.py:116
+#, python-format
+msgid "<b>Evanelisation Papal Intention:</b> %s"
+msgstr "<b>Intencja papieska ewangelizacyjna:</b> %s"
+
+#: rosary/views.py:119
+#, python-format
+msgid "<b>Intension of Polish Catholic Mission:</b> %s"
+msgstr "<b>Intencja Polskiej Misji Katolickiej:</b> %s"
+
+#: rosary/views.py:129
+#, python-format
+msgid "Mystery ought to be prayed from %(date_from)s to %(date_to)s"
+msgstr "Tajemnicę należy odmawiać od %(date_from)s do %(date_to)s"
