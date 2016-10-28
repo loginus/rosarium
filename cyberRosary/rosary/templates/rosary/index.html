@@ -1,27 +1,35 @@
 {% extends "rosary/base/root_template.html" %}
 {% load i18n %}
 {% block content %}
-  <section class="measure">
-        <h4>{% trans "e-Rose members" %}</h4>
-{% if pis %}
+<section class="measure">
+    <h4>{% trans "e-Rose members" %}</h4>
+    {% if pis %}
     <table>
-      <thead>
-      <th onclick="sortTable(this, 0);" >{% trans "Name" %}</th>
-        <th onclick="sortTable(this, 1);" >{% trans "Mystery" %}</th>
-        <th onclick="sortTable(this, 2);" >{% trans "Date" %}</th>
-      </thead>
-      <tbody>
-          {% for pi in pis %}
+        <thead>
+        <th onclick="sortTable(this, 0);">{% trans "Name" %}</th>
+        <th onclick="sortTable(this, 1);">{% trans "Mystery" %}</th>
+        <th onclick="sortTable(this, 2);">{% trans "Date" %}</th>
+        </thead>
+        <tbody>
+        {% for pi in pis %}
         <tr class="txt--right {% cycle 'bg--white' 'bg--light-gray' %}  ">
             <td class="txt--left">{{ pi.person.name }}</td>
-            <td class="txt--left"><a href="{% url 'printout' pi.code %}" target="_blank">{{ pi.mystery.title }}</a></td>
-            <td class="txt--left">{{ pi.downloaded }}</td>
+            <td class="txt--left"><a href="{% url 'printout' pi.code %}" target="_blank">
+                [{{ pi.mystery.short_number_group }}] {{ pi.mystery.title }}</a></td>
+            <td class="txt--left">
+                {% if pi.downloaded %}
+                <span class="fnt--green">{{ pi.downloaded|date:"Y-m-d" }}</span>
+                {% else %}
+                <span class="fnt--red">{% trans "Not downloaded" %}</span>
+                {% endif %}
+
+            </td>
         </tr>
-          {% endfor %}
-      </tbody>
+        {% endfor %}
+        </tbody>
     </table>
-{% else %}
+    {% else %}
     <p>{% trans "No e-Rose members are available." %}</p>
-{% endif %}
-  </section>
+    {% endif %}
+</section>
 {% endblock content %}

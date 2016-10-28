@@ -25,8 +25,24 @@ class Mystery(models.Model):
     quote = models.TextField()
     meditation = models.TextField()
 
+    def number_group(self, full=True):
+        number_in_group = ((self.number - 1) % 5) + 1
+        if number_in_group < 4:
+            seq = 'I' * number_in_group
+        elif number_in_group < 5:
+            seq = 'IV'
+        else:
+            seq = 'V'
+        group_name = Mystery.GROUPS[self.group]
+        if not full:
+            group_name = "".join([x[0] for x in group_name.split()])
+        return seq + ' ' + group_name
+
+    def short_number_group(self):
+        return self.number_group(full=False)
+
     def __unicode__(self):
-        return self.title
+        return self.number_group() + " " + self.title
 
 
 class Intension(models.Model):
@@ -38,7 +54,7 @@ class Intension(models.Model):
     message = models.TextField(null=True, blank=True)
 
     def __unicode__(self):
-        return str(self.start_date)+" - "+str(self.end_date)
+        return str(self.start_date) + " - " + str(self.end_date)
 
 
 class Person(models.Model):
@@ -61,7 +77,6 @@ class PersonIntension(models.Model):
         if self.pk is None:
             self.code = str(uuid.uuid4())
         super(PersonIntension, self).save()
-
 
     def __unicode__(self):
         return self.code

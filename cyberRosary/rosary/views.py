@@ -63,7 +63,7 @@ def printout(request, unique_code):
     intension1 = pi.intension.universal_intension
     intension2 = pi.intension.evangelisation_intension
     intension3 = pi.intension.pcm_intension
-    number_group = determine_number_group(pi.mystery.group, pi.mystery.number)
+    number_group = pi.mystery.number_group()
 
     im = get_image(logo, (doc.width / 2) * .9)
 
@@ -118,7 +118,8 @@ def printout(request, unique_code):
 
     # date
     story.append(
-        Paragraph(u'<font color="red">Tajemnicę należy odmawiać od %s do %s</font>' % (str(start_date), str(end_date)), styles["CenterP"]))
+        Paragraph(u'<font color="red">Tajemnicę należy odmawiać od %s do %s</font>' % (str(start_date), str(end_date)),
+                  styles["CenterP"]))
     story.append(Spacer(1, 6))
 
     doc.build(story)
@@ -143,7 +144,7 @@ def index(request):
     if not intension:
         pis = []
     else:
-        pis = PersonIntension.objects.filter(intension=intension).prefetch_related('person', 'mystery')
+        pis = PersonIntension.objects.filter(intension=intension).order_by('mystery__number').prefetch_related('person', 'mystery')
     logger.debug("found: %d" % len(pis))
     context = {'pis': pis}
 
@@ -155,15 +156,3 @@ def get_image(path, width=1 * cm):
     iw, ih = img.getSize()
     aspect = ih / float(iw)
     return Image(path, width=width, height=(width * aspect))
-
-
-def determine_number_group(group, number):
-    number_in_group = number % 5
-    if number_in_group < 4:
-        seq = 'I' * number_in_group
-    elif number_in_group < 5:
-        seq = 'IV'
-    else:
-        seq = 'V'
-    group_name = Mystery.GROUPS[group]
-    return seq + ' ' + group_name
