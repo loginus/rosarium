@@ -19,131 +19,23 @@ from reportlab.pdfbase.pdfmetrics import registerFontFamily
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image
 from reportlab.platypus import Table
+from django.contrib.auth import decorators
 
 from rosary.models import PersonIntension, Intension
 
 logger = logging.getLogger(__name__)
 
 
-@cache_page(3600 * 24 * 20)
+@cache_page(3600*24*20)
 def printout(request, unique_code):
-    pi = get_object_or_404(PersonIntension, code=unique_code)  # type: PersonIntension
-
-    title = pi.mystery.title
-
-    # Create the HttpResponse object with the appropriate PDF headers.
-    response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename="' + title + '.pdf"'
-
-    logger.info("Content-disposition %s" % response['Content-Disposition'])
-
-    buffer = BytesIO()
-
-    pdfmetrics.registerFont(TTFont('DejaVuSerif', 'DejaVuSerif.ttf'))
-    pdfmetrics.registerFont(TTFont('DejaVuSerifBd', 'DejaVuSerif-Bold.ttf'))
-    pdfmetrics.registerFont(TTFont('DejaVuSerifIt', 'DejaVuSerif-Italic.ttf'))
-    pdfmetrics.registerFont(TTFont('DejaVuSerifBI', 'DejaVuSerif-BoldItalic.ttf'))
-
-    registerFontFamily('DejaVuSerif', normal='DejaVuSerif', bold='DejaVuSerifBd', italic='DejaVuSerifIt',
-                       boldItalic='DejaVuSerifBI')
-
-    doc = SimpleDocTemplate(buffer, pagesize=letter,
-                            rightMargin=54, leftMargin=54,
-                            topMargin=36, bottomMargin=18, title=title)
-
-    width = doc.pagesize[0] - doc.leftMargin - doc.rightMargin
-
-    story = []
-    logo = pi.mystery.image_path.path
-
-    # group = pi.mystery.group
-    user = pi.person.name
-    start_date = pi.intension.start_date
-    end_date = pi.intension.end_date
-    quote = prepare_text(pi.mystery.quote)
-    meditation = prepare_text(pi.mystery.meditation)
-    intension1 = pi.intension.universal_intension
-    intension2 = pi.intension.evangelisation_intension
-    intension3 = pi.intension.pcm_intension
-    number_group = pi.mystery.number_group()
-
-    normal_font_size = determine_font_size(meditation, quote)
-
-    im = get_image(logo, (doc.width / 2) * .9)
-
-    styles = getSampleStyleSheet()
-    styles.add(ParagraphStyle(name='CenterP', alignment=enums.TA_CENTER, fontName='DejaVuSerif', fontSize=10))
-    styles.add(
-        ParagraphStyle(name='NormalP', alignment=enums.TA_LEFT, fontName='DejaVuSerif', fontSize=normal_font_size))
-    styles.add(ParagraphStyle(name='H2', alignment=enums.TA_CENTER, fontName='DejaVuSerifBd', fontSize=10))
-    styles.add(ParagraphStyle(name='H1', alignment=enums.TA_CENTER, fontName='DejaVuSerifBd', fontSize=12))
-
-    # User
-    story.append(Paragraph(user, styles["NormalP"]))
-    story.append(Spacer(1, 12))
-
-    # line
-    d = Drawing(doc.width, 1)
-    d.add(Line(0, 0, doc.width, 0))
-    story.append(d)
-
-    # mystery group
-    story.append(Spacer(1, 6))
-    story.append(Paragraph(number_group, styles["H2"]))
-    story.append(Spacer(1, 6))
-
-    story.append(Paragraph(title, styles["H1"]))
-    story.append(Spacer(1, 12))
-
-    story.append(Paragraph(u"<i>%s</i>" % quote, styles["NormalP"]))
-    story.append(Spacer(1, 12))
-
-    meditationParagraph = Paragraph(meditation, styles["NormalP"])
-    data = [[meditationParagraph, im]]
-
-    t = Table(data, style=[
-        ('VALIGN', (0, 0), (0, 0), 'TOP'),
-        ('ALIGN', (1, 0), (1, 0), 'CENTER'),
-        ('VALIGN', (1, 0), (1, 0), 'MIDDLE'),
-    ])
-
-    story.append(t)
-
-    story.append(Spacer(1, 12))
-
-    story.append(Paragraph(_("<b>General Papal Intention:</b> %s") % intension1, styles["NormalP"]))
-    story.append(Spacer(1, 12))
-
-    story.append(Paragraph(_("<b>Evanelisation Papal Intention:</b> %s") % intension2, styles["NormalP"]))
-    story.append(Spacer(1, 12))
-
-    story.append(Paragraph(_("<b>Intension of Polish Catholic Mission:</b> %s") % intension3, styles["NormalP"]))
-    story.append(Spacer(1, 12))
-
-    story.append(d)
-    story.append(Spacer(1, 6))
-
-    # date
-    story.append(
-        Paragraph(
-            '<font color="red">'
-            + _('Mystery ought to be prayed from %(date_from)s to %(date_to)s')
-            % {'date_from': str(start_date), 'date_to': str(end_date)}
-            + '</font>', styles["CenterP"]))
-    doc.build(story)
-
-    pdf = buffer.getvalue()
-    buffer.close()
-    response.write(pdf)
-
+    (pdf, pi) = _generate_pdf(request, unique_code)
     now = timezone.now()
-
     pi.downloaded = now
     pi.save()
+    return pdf
 
-    return response
 
-
+@decorators.login_required
 def index(request):
     from django.utils.datetime_safe import datetime
     logger.debug("index started")
@@ -160,21 +52,119 @@ def index(request):
     return render(request, 'rosary/index.html', context)
 
 
-def get_image(path, width=1 * cm):
+@decorators.login_required
+def check_printout(request, unique_code):
+    (pdf, pi) = _generate_pdf(request, unique_code)
+    return pdf
+
+
+def _generate_pdf(request, unique_code):
+    logger.info("Download request from client %s (%s), agent '%s', referer '%s' " % (request.META.get('REMOTE_ADDR'),
+                                                                                     request.META.get('REMOTE_HOST'),
+                                                                                     request.META.get('HTTP_USER_AGENT'),
+                                                                                     request.META.get('HTTP_REFERER'),
+                                                                                     )
+                )
+    pi = get_object_or_404(PersonIntension, code=unique_code)  # type: PersonIntension
+    title = pi.mystery.title
+    # Create the HttpResponse object with the appropriate PDF headers.
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="' + title + '.pdf"'
+    logger.info("Content-disposition %s" % response['Content-Disposition'])
+    buffer = BytesIO()
+    pdfmetrics.registerFont(TTFont('DejaVuSerif', 'DejaVuSerif.ttf'))
+    pdfmetrics.registerFont(TTFont('DejaVuSerifBd', 'DejaVuSerif-Bold.ttf'))
+    pdfmetrics.registerFont(TTFont('DejaVuSerifIt', 'DejaVuSerif-Italic.ttf'))
+    pdfmetrics.registerFont(TTFont('DejaVuSerifBI', 'DejaVuSerif-BoldItalic.ttf'))
+    registerFontFamily('DejaVuSerif', normal='DejaVuSerif', bold='DejaVuSerifBd', italic='DejaVuSerifIt',
+                       boldItalic='DejaVuSerifBI')
+    doc = SimpleDocTemplate(buffer, pagesize=letter,
+                            rightMargin=54, leftMargin=54,
+                            topMargin=36, bottomMargin=18, title=title)
+    width = doc.pagesize[0] - doc.leftMargin - doc.rightMargin
+    story = []
+    logo = pi.mystery.image_path.path
+    # group = pi.mystery.group
+    user = pi.person.name
+    start_date = pi.intension.start_date
+    end_date = pi.intension.end_date
+    quote = _prepare_text(pi.mystery.quote)
+    meditation = _prepare_text(pi.mystery.meditation)
+    intension1 = pi.intension.universal_intension
+    intension2 = pi.intension.evangelisation_intension
+    intension3 = pi.intension.pcm_intension
+    logger.info("Generating mystery '%s' for user: %s" % (title, user))
+    logger.info("Generating mystery '%s' for user: %s" % (title, user))
+    number_group = pi.mystery.number_group()
+    normal_font_size = _determine_font_size(meditation, quote)
+    im = _get_image(logo, (doc.width / 2) * .9)
+    styles = getSampleStyleSheet()
+    styles.add(ParagraphStyle(name='CenterP', alignment=enums.TA_CENTER, fontName='DejaVuSerif', fontSize=10))
+    styles.add(
+        ParagraphStyle(name='NormalP', alignment=enums.TA_LEFT, fontName='DejaVuSerif', fontSize=normal_font_size))
+    styles.add(ParagraphStyle(name='H2', alignment=enums.TA_CENTER, fontName='DejaVuSerifBd', fontSize=10))
+    styles.add(ParagraphStyle(name='H1', alignment=enums.TA_CENTER, fontName='DejaVuSerifBd', fontSize=12))
+    # User
+    story.append(Paragraph(user, styles["NormalP"]))
+    story.append(Spacer(1, 12))
+    # line
+    d = Drawing(doc.width, 1)
+    d.add(Line(0, 0, doc.width, 0))
+    story.append(d)
+    # mystery group
+    story.append(Spacer(1, 6))
+    story.append(Paragraph(number_group, styles["H2"]))
+    story.append(Spacer(1, 6))
+    story.append(Paragraph(title, styles["H1"]))
+    story.append(Spacer(1, 12))
+    story.append(Paragraph(u"<i>%s</i>" % quote, styles["NormalP"]))
+    story.append(Spacer(1, 12))
+    meditationParagraph = Paragraph(meditation, styles["NormalP"])
+    data = [[meditationParagraph, im]]
+    t = Table(data, style=[
+        ('VALIGN', (0, 0), (0, 0), 'TOP'),
+        ('ALIGN', (1, 0), (1, 0), 'CENTER'),
+        ('VALIGN', (1, 0), (1, 0), 'MIDDLE'),
+    ])
+    story.append(t)
+    story.append(Spacer(1, 12))
+    story.append(Paragraph(_("<b>General Papal Intention:</b> %s") % intension1, styles["NormalP"]))
+    story.append(Spacer(1, 12))
+    story.append(Paragraph(_("<b>Evanelisation Papal Intention:</b> %s") % intension2, styles["NormalP"]))
+    story.append(Spacer(1, 12))
+    story.append(Paragraph(_("<b>Intension of Polish Catholic Mission:</b> %s") % intension3, styles["NormalP"]))
+    story.append(Spacer(1, 12))
+    story.append(d)
+    story.append(Spacer(1, 6))
+    # date
+    story.append(
+        Paragraph(
+            '<font color="red">'
+            + _('Mystery ought to be prayed from %(date_from)s to %(date_to)s')
+            % {'date_from': str(start_date), 'date_to': str(end_date)}
+            + '</font>', styles["CenterP"]))
+    doc.build(story)
+    pdf = buffer.getvalue()
+    buffer.close()
+    response.write(pdf)
+    return (response, pi)
+
+
+def _get_image(path, width=1 * cm):
     img = utils.ImageReader(path)
     iw, ih = img.getSize()
     aspect = ih / float(iw)
     return Image(path, width=width, height=(width * aspect))
 
 
-def determine_font_size(meditation, quote):
+def _determine_font_size(meditation, quote):
     normal_font_size = 9
     if len(quote) + 2 * len(meditation) > 3500:
         normal_font_size = 8
     return normal_font_size
 
 
-def prepare_text(text):
+def _prepare_text(text):
     if text:
         return text.strip().replace('\n', '<br/>')
     return text

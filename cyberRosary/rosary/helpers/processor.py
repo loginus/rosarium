@@ -1,7 +1,5 @@
 #!/usr/bin/python
 
-
-
 def find_recent_intensions(count):
     # todo configure start date
     today = datetime.today()
@@ -19,8 +17,10 @@ def notify_not_downloaded(person_intensions):
     logger.info("Notyfying not downloaded.")
     for pi in person_intensions:
         if pi.person.active and not pi.downloaded:
+            code = "http://rosary.cyberarche.pl/rosarium/%s/" % pi.code
             email = pi.person.email
-            # send_mail("Tajemnica ZR", "Tajemnica " + pi.code, "rosary@cyberarche.pl", "wterliko@cyberarche.pl")
+            message = u"Szczęść Boże,\n Pod adresem\n%s\nznajduje się aktualna tajemnica Żywego Różańca.\n Wszelkie trudności z pobraniem pliku proszę zgłaszać do na adres rosary@cyberarche.pl.\nz wyrazami szacuku\nZespół Cyberarché" % code
+            send_mail(u"Tajemnica ŻR na listopad", message, "rosary@cyberarche.pl", (email,'rosarium.mariae.eroza@gmail.com'))
             logger.info("Send email to %s with code %s" % (email, pi.code))
 
 
@@ -60,8 +60,8 @@ def process_intensions():
 
 
 import logging
-#import django
-#django.setup()
+import django
+django.setup()
 
 from django.utils.datetime_safe import datetime
 

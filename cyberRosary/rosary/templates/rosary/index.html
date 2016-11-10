@@ -14,7 +14,7 @@
         {% for pi in pis %}
         <tr class="txt--right {% cycle 'bg--white' 'bg--light-gray' %}  ">
             <td class="txt--left">{{ pi.person.name }}</td>
-            <td class="txt--left"><a href="{% url 'printout' pi.code %}">
+            <td class="txt--left"><a href="{% url 'check_printout' pi.code %}">
                 [{{ pi.mystery.short_number_group }}] {{ pi.mystery.title }}</a></td>
             <td class="txt--left">
                 {% if pi.downloaded %}
