@@ -2,6 +2,15 @@
 {% load i18n %}
 {% block content %}
 <section class="measure">
+    <div class="grd">
+        <div class="grd-row">
+            <div class="grd-row-col-4-6">
+            </div>
+            <div class="grd-row-col-2-6 txt--right">
+                <a href="/admin/">{% trans "Admin" %}</a>
+            </div>
+        </div>
+    </div>
     <h4>{% trans "e-Rose members" %}</h4>
     {% if pis %}
     <table>

@@ -1,4 +1,9 @@
 #!/usr/bin/python
+from django.utils.translation import ugettext as _
+from django.utils.datetime_safe import datetime
+
+from cyberRosary import settings
+
 
 def find_recent_intensions(count):
     # todo configure start date
@@ -13,14 +18,18 @@ def find_person_itnensions(current_intension):
     return person_intensions
 
 
-def notify_not_downloaded(person_intensions):
+def notify_not_downloaded(person_intensions, subject_ext=""):
     logger.info("Notyfying not downloaded.")
     for pi in person_intensions:
         if pi.person.active and not pi.downloaded:
-            code = "http://rosary.cyberarche.pl/rosarium/%s/" % pi.code
+            code = settings.LOCATION_TEMPLATE % pi.code
             email = pi.person.email
-            message = u"Szczęść Boże,\n Pod adresem\n%s\nznajduje się aktualna tajemnica Żywego Różańca.\n Wszelkie trudności z pobraniem pliku proszę zgłaszać do na adres rosary@cyberarche.pl.\nz wyrazami szacuku\nZespół Cyberarché" % code
-            send_mail(u"Tajemnica ŻR na listopad", message, "rosary@cyberarche.pl", (email,'rosarium.mariae.eroza@gmail.com'))
+            message = _(
+                "God bless,\n Under the link \n%s\nthere is a new Live Rosary mystery.\n Pease report any problems with downloading or opening the file to rosary@cyberarche.pl email address.\nSincerely\nCyberarche Team") % code
+            # month = datetime.today().strftime('%B')
+            month = datetime.today().strftime('%m-%Y')
+            subject = _("LR mystery for %(month)s%(subject_ext)s") % {'month': month, 'subject_ext': subject_ext}
+            send_mail(subject, message, "rosary@cyberarche.pl", (email, 'rosarium.mariae.eroza@gmail.com'))
             logger.info("Send email to %s with code %s" % (email, pi.code))
 
 
@@ -51,7 +60,7 @@ def process_intensions():
         return
     person_intensions = find_person_itnensions(recent_intensions[0])
     if person_intensions:
-        notify_not_downloaded(person_intensions)
+        notify_not_downloaded(person_intensions, _(" - remider"))
     elif len(recent_intensions) > 1:
         created_intensions = rotate_intensions(recent_intensions)
         notify_not_downloaded(created_intensions)
@@ -60,10 +69,18 @@ def process_intensions():
 
 
 import logging
+
 import django
+
 django.setup()
 
-from django.utils.datetime_safe import datetime
+from django.utils import translation
+
+language = translation.get_language_from_path()
+if not language:
+    language = "pl-pl"
+
+translation.activate(settings.LANGUAGE_CODE)
 
 from rosary.models import Intension, PersonIntension, Mystery
 

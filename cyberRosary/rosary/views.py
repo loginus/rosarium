@@ -30,8 +30,11 @@ logger = logging.getLogger(__name__)
 def printout(request, unique_code):
     (pdf, pi) = _generate_pdf(request, unique_code)
     now = timezone.now()
-    pi.downloaded = now
-    pi.save()
+    if not pi.downloaded:
+        pi.downloaded = now
+        pi.save()
+    pi.person.last_activity = now
+    pi.person.save()
     return pdf
 
 
@@ -93,7 +96,6 @@ def _generate_pdf(request, unique_code):
     intension1 = pi.intension.universal_intension
     intension2 = pi.intension.evangelisation_intension
     intension3 = pi.intension.pcm_intension
-    logger.info("Generating mystery '%s' for user: %s" % (title, user))
     logger.info("Generating mystery '%s' for user: %s" % (title, user))
     number_group = pi.mystery.number_group()
     normal_font_size = _determine_font_size(meditation, quote)

@@ -62,6 +62,7 @@ class Person(models.Model):
     name = models.CharField(max_length=127)
     email = models.EmailField(unique=True)
     active = models.BooleanField(null=False, default=True)
+    last_activity = models.DateTimeField(null=True, blank=True)
 
     def __unicode__(self):
         return self.name

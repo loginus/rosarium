@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-28 23:02+0200\n"
+"POT-Creation-Date: 2016-11-14 20:50+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,19 +19,58 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
 
-#: rosary/models.py:16
+#: rosary/helpers/processor.py:28
+#, fuzzy, python-format
+#| msgid ""
+#| "God bless,\n"
+#| " Under the link \n"
+#| "%s\n"
+#| "there is new Live Rosary mystery.\n"
+#| " Pease report all the problems with downloding or opening the file to "
+#| "rosary@cyberarche.pl email address.\n"
+#| "Sincerely\n"
+#| "Cyberarche Team"
+msgid ""
+"God bless,\n"
+" Under the link \n"
+"%s\n"
+"there is a new Live Rosary mystery.\n"
+" Pease report any problems with downloading or opening the file to "
+"rosary@cyberarche.pl email address.\n"
+"Sincerely\n"
+"Cyberarche Team"
+msgstr ""
+"Szczęść Boże,\n"
+"Pod adresem\n"
+"%s\n"
+"znajduje się aktualna tajemnica Żywego Różańca.\n"
+"Wszelkie trudności z pobraniem pliku proszę zgłaszać na adres "
+"rosary@cyberarche.pl.\n"
+"z wyrazami szacunku\n"
+"Zespół Cyberarché"
+
+#: rosary/helpers/processor.py:31
+#, python-format
+msgid "LR mystery for %(month)s%(subject_ext)s"
+msgstr "Tajemnica ŻR na %(month)s%(subject_ext)s"
+
+#: rosary/helpers/processor.py:63
+msgid " - remider"
+msgstr " - przypomnienie"
+
+#: rosary/models.py:17
 msgid "Joyful Mystery"
 msgstr "Tajemnica Radosna"
 
-#: rosary/models.py:17
+#: rosary/models.py:18
 msgid "Luminous Mystery"
 msgstr "Tajemnica Światła"
 
-#: rosary/models.py:18
+#: rosary/models.py:19
 msgid "Sorrowful Mystery"
 msgstr "Tajemnica Bolesna"
 
-#: rosary/models.py:19
+#: rosary/models.py:20
 msgid "Glorious Mystery"
 msgstr "Tajemnica Chwalebna"
 
@@ -39,46 +78,50 @@ msgstr "Tajemnica Chwalebna"
 msgid "e-Rosa members"
 msgstr "Członkowie e-Róży"
 
-#: rosary/templates/rosary/index.html:5
+#: rosary/templates/rosary/index.html:10
+msgid "Admin"
+msgstr "Panel administracyjny"
+
+#: rosary/templates/rosary/index.html:14
 msgid "e-Rose members"
 msgstr "Członkowie e-Róży"
 
-#: rosary/templates/rosary/index.html:9
+#: rosary/templates/rosary/index.html:18
 msgid "Name"
 msgstr "Nazwisko"
 
-#: rosary/templates/rosary/index.html:10
+#: rosary/templates/rosary/index.html:19
 msgid "Mystery"
 msgstr "Tajemnica"
 
-#: rosary/templates/rosary/index.html:11
+#: rosary/templates/rosary/index.html:20
 msgid "Date"
 msgstr "Data"
 
-#: rosary/templates/rosary/index.html:23
+#: rosary/templates/rosary/index.html:32
 msgid "Not downloaded"
 msgstr "Nie pobrana"
 
-#: rosary/templates/rosary/index.html:32
+#: rosary/templates/rosary/index.html:41
 msgid "No e-Rose members are available."
 msgstr "Brak członków e-Róży"
 
-#: rosary/views.py:113
+#: rosary/views.py:131
 #, python-format
 msgid "<b>General Papal Intention:</b> %s"
 msgstr "<b>Intencja papieska ogólna:</b> %s"
 
-#: rosary/views.py:116
+#: rosary/views.py:133
 #, python-format
 msgid "<b>Evanelisation Papal Intention:</b> %s"
 msgstr "<b>Intencja papieska ewangelizacyjna:</b> %s"
 
-#: rosary/views.py:119
+#: rosary/views.py:135
 #, python-format
 msgid "<b>Intension of Polish Catholic Mission:</b> %s"
 msgstr "<b>Intencja Polskiej Misji Katolickiej:</b> %s"
 
-#: rosary/views.py:129
+#: rosary/views.py:143
 #, python-format
 msgid "Mystery ought to be prayed from %(date_from)s to %(date_to)s"
 msgstr "Tajemnicę należy odmawiać od %(date_from)s do %(date_to)s"
