@@ -11,3 +11,5 @@ composer.lock
 *.pyc
 *.log
 cyberRosary/cyberRosary/settings.py
+cyberRosary/*.jpg
+cyberRosary/*.png
