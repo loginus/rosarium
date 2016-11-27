@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-14 20:50+0100\n"
+"POT-Creation-Date: 2016-11-27 22:50+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,16 +20,7 @@ msgstr ""
 "|| n%100>=20) ? 1 : 2);\n"
 
 #: rosary/helpers/processor.py:28
-#, fuzzy, python-format
-#| msgid ""
-#| "God bless,\n"
-#| " Under the link \n"
-#| "%s\n"
-#| "there is new Live Rosary mystery.\n"
-#| " Pease report all the problems with downloding or opening the file to "
-#| "rosary@cyberarche.pl email address.\n"
-#| "Sincerely\n"
-#| "Cyberarche Team"
+#, python-format
 msgid ""
 "God bless,\n"
 " Under the link \n"
@@ -48,6 +39,7 @@ msgstr ""
 "rosary@cyberarche.pl.\n"
 "z wyrazami szacunku\n"
 "Zespół Cyberarché"
+
 
 #: rosary/helpers/processor.py:31
 #, python-format
@@ -73,6 +65,10 @@ msgstr "Tajemnica Bolesna"
 #: rosary/models.py:20
 msgid "Glorious Mystery"
 msgstr "Tajemnica Chwalebna"
+
+#: rosary/templates/rosary/404.html:5
+msgid "Page not found- 404"
+msgstr ""
 
 #: rosary/templates/rosary/base/root_template.html:8
 msgid "e-Rosa members"
@@ -106,22 +102,22 @@ msgstr "Nie pobrana"
 msgid "No e-Rose members are available."
 msgstr "Brak członków e-Róży"
 
-#: rosary/views.py:131
+#: rosary/views.py:140
 #, python-format
 msgid "<b>General Papal Intention:</b> %s"
 msgstr "<b>Intencja papieska ogólna:</b> %s"
 
-#: rosary/views.py:133
+#: rosary/views.py:142
 #, python-format
 msgid "<b>Evanelisation Papal Intention:</b> %s"
 msgstr "<b>Intencja papieska ewangelizacyjna:</b> %s"
 
-#: rosary/views.py:135
+#: rosary/views.py:144
 #, python-format
 msgid "<b>Intension of Polish Catholic Mission:</b> %s"
 msgstr "<b>Intencja Polskiej Misji Katolickiej:</b> %s"
 
-#: rosary/views.py:143
+#: rosary/views.py:152
 #, python-format
 msgid "Mystery ought to be prayed from %(date_from)s to %(date_to)s"
 msgstr "Tajemnicę należy odmawiać od %(date_from)s do %(date_to)s"

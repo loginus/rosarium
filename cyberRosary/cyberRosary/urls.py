@@ -21,5 +21,4 @@ urlpatterns = [
     url(r'^rosary/', include('rosary.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^$', lambda r: HttpResponseRedirect('rosary/')),
-
 ]

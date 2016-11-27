@@ -76,11 +76,11 @@ django.setup()
 
 from django.utils import translation
 
-language = translation.get_language_from_path()
+language = settings.LANGUAGE_CODE
 if not language:
     language = "pl-pl"
 
-translation.activate(settings.LANGUAGE_CODE)
+translation.activate(language)
 
 from rosary.models import Intension, PersonIntension, Mystery
 
