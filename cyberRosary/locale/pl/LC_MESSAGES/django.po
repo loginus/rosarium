@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-27 22:50+0100\n"
+"POT-Creation-Date: 2017-01-26 22:40+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
 
-#: rosary/helpers/processor.py:28
+#: rosary/helpers/processor.py:27
 #, python-format
 msgid ""
 "God bless,\n"
@@ -40,13 +40,12 @@ msgstr ""
 "z wyrazami szacunku\n"
 "Zespół Cyberarché"
 
-
-#: rosary/helpers/processor.py:31
+#: rosary/helpers/processor.py:30
 #, python-format
 msgid "LR mystery for %(month)s%(subject_ext)s"
 msgstr "Tajemnica ŻR na %(month)s%(subject_ext)s"
 
-#: rosary/helpers/processor.py:63
+#: rosary/helpers/processor.py:62
 msgid " - remider"
 msgstr " - przypomnienie"
 
@@ -102,22 +101,25 @@ msgstr "Nie pobrana"
 msgid "No e-Rose members are available."
 msgstr "Brak członków e-Róży"
 
-#: rosary/views.py:140
+#: rosary/views.py:134
 #, python-format
-msgid "<b>General Papal Intention:</b> %s"
-msgstr "<b>Intencja papieska ogólna:</b> %s"
+msgid "<b>%s</b>"
+msgstr "<b>%s</b>"
 
-#: rosary/views.py:142
+#: rosary/views.py:136
 #, python-format
-msgid "<b>Evanelisation Papal Intention:</b> %s"
-msgstr "<b>Intencja papieska ewangelizacyjna:</b> %s"
+msgid "<b>Papal Intention:</b> %s"
+msgstr "<b>Intencja papieska:</b> %s"
 
-#: rosary/views.py:144
+#: rosary/views.py:138
 #, python-format
 msgid "<b>Intension of Polish Catholic Mission:</b> %s"
 msgstr "<b>Intencja Polskiej Misji Katolickiej:</b> %s"
 
-#: rosary/views.py:152
+#: rosary/views.py:146
 #, python-format
 msgid "Mystery ought to be prayed from %(date_from)s to %(date_to)s"
 msgstr "Tajemnicę należy odmawiać od %(date_from)s do %(date_to)s"
+
+#~ msgid "<b>Evanelisation Papal Intention:</b> %s"
+#~ msgstr "<b>Intencja papieska ewangelizacyjna:</b> %s"

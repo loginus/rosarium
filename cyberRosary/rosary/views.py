@@ -22,6 +22,8 @@ from reportlab.platypus import Table
 from django.contrib.auth import decorators
 
 from rosary.models import PersonIntension, Intension
+from django.template.defaultfilters import date
+
 
 logger = logging.getLogger(__name__)
 
@@ -93,8 +95,7 @@ def _generate_pdf(request, unique_code):
     end_date = pi.intension.end_date
     quote = _prepare_text(pi.mystery.quote)
     meditation = _prepare_text(pi.mystery.meditation)
-    intension1 = pi.intension.universal_intension
-    intension2 = pi.intension.evangelisation_intension
+    intension1 = pi.intension.papal_intension
     intension3 = pi.intension.pcm_intension
     logger.info("Generating mystery '%s' for user: %s" % (title, user))
     number_group = pi.mystery.number_group()
@@ -130,9 +131,9 @@ def _generate_pdf(request, unique_code):
     ])
     story.append(t)
     story.append(Spacer(1, 12))
-    story.append(Paragraph(_("<b>General Papal Intention:</b> %s") % intension1, styles["NormalP"]))
+    story.append(Paragraph(_("<b>%s</b>") % date(start_date, 'F Y'), styles["NormalP"]))
     story.append(Spacer(1, 12))
-    story.append(Paragraph(_("<b>Evanelisation Papal Intention:</b> %s") % intension2, styles["NormalP"]))
+    story.append(Paragraph(_("<b>Papal Intention:</b> %s") % intension1, styles["NormalP"]))
     story.append(Spacer(1, 12))
     story.append(Paragraph(_("<b>Intension of Polish Catholic Mission:</b> %s") % intension3, styles["NormalP"]))
     story.append(Spacer(1, 12))

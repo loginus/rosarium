@@ -13,3 +13,4 @@ composer.lock
 cyberRosary/cyberRosary/settings.py
 cyberRosary/*.jpg
 cyberRosary/*.png
+django.mo

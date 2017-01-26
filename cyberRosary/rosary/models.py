@@ -49,8 +49,8 @@ class Mystery(models.Model):
 class Intension(models.Model):
     start_date = models.DateField(unique=True)
     end_date = models.DateField(unique=True)
-    universal_intension = models.TextField(max_length=2047)
-    evangelisation_intension = models.TextField(max_length=2047)
+    papal_intension = models.TextField(max_length=2047)
+    evangelisation_intension = models.TextField(max_length=2047, null=True, blank=True)
     pcm_intension = models.TextField(max_length=2047)
     message = models.TextField(null=True, blank=True)
 

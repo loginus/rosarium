@@ -5,10 +5,9 @@ from django.utils.datetime_safe import datetime
 from cyberRosary import settings
 
 
-def find_recent_intensions(count):
+def find_recent_intensions(count, start_date=datetime.today()):
     # todo configure start date
-    today = datetime.today()
-    recent_intensions = Intension.objects.filter(start_date__lte=today).order_by('-start_date')[:count]
+    recent_intensions = Intension.objects.filter(start_date__lte=start_date).order_by('-start_date')[:count]
     return recent_intensions
 
 

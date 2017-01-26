@@ -2,7 +2,7 @@ from django.contrib import admin
 
 from .models import Intension, Mystery, Person, PersonIntension
 
-admin.site.register(Intension)
+
 admin.site.register(Person)
 admin.site.register(Mystery)
 
@@ -24,3 +24,9 @@ class PersonIntensionAdmin(admin.ModelAdmin):
 
 
 admin.site.register(PersonIntension, PersonIntensionAdmin)
+
+class IntensionAdmin(admin.ModelAdmin):
+    exclude = ('evangelisation_intension',)
+
+
+admin.site.register(Intension, IntensionAdmin)
