@@ -17,14 +17,15 @@ def find_person_itnensions(current_intension):
     return person_intensions
 
 
-def notify_not_downloaded(person_intensions, subject_ext=""):
+def notify_not_downloaded(person_intensions, message, subject_ext=""):
     logger.info("Notyfying not downloaded.")
     for pi in person_intensions:
         if pi.person.active and not pi.downloaded:
             code = settings.LOCATION_TEMPLATE % pi.code
             email = pi.person.email
-            message = _(
-                "God bless,\n Under the link \n%s\nthere is a new Live Rosary mystery.\n Pease report any problems with downloading or opening the file to rosary@cyberarche.pl email address.\nSincerely\nCyberarche Team") % code
+            if not message:
+                message = _(
+                    "God bless,\n Under the link \n%s\nthere is a new Live Rosary mystery.\n Pease report any problems with downloading or opening the file to rosary@cyberarche.pl email address.\nSincerely\nCyberarche Team") % code
             # month = datetime.today().strftime('%B')
             month = datetime.today().strftime('%m-%Y')
             subject = _("LR mystery for %(month)s%(subject_ext)s") % {'month': month, 'subject_ext': subject_ext}
@@ -58,11 +59,12 @@ def process_intensions():
         logger.error("No current intension. Quitting")
         return
     person_intensions = find_person_itnensions(recent_intensions[0])
+    current_message = recent_intensions[0].message
     if person_intensions:
-        notify_not_downloaded(person_intensions, _(" - remider"))
+        notify_not_downloaded(person_intensions, current_message, _(" - remider"))
     elif len(recent_intensions) > 1:
         created_intensions = rotate_intensions(recent_intensions)
-        notify_not_downloaded(created_intensions)
+        notify_not_downloaded(created_intensions, current_message)
     else:
         logger.error("Cannot find person intensions for period %s" % str(recent_intensions[0]))
 
