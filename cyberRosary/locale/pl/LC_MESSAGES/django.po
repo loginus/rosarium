@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-05 19:55+0100\n"
+"POT-Creation-Date: 2017-02-05 20:28+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
 
-#: rosary/helpers/processor.py:28
+#: rosary/helpers/processor.py:36
 #, python-format
 msgid ""
 "God bless,\n"
@@ -41,12 +41,12 @@ msgstr ""
 "Żywy Różaniec\n"
 "Polska Misja Katolicka w Zurychu"
 
-#: rosary/helpers/processor.py:31
+#: rosary/helpers/processor.py:44
 #, python-format
 msgid "LR mystery for %(month)s%(subject_ext)s"
 msgstr "Tajemnica ŻR na %(month)s%(subject_ext)s"
 
-#: rosary/helpers/processor.py:64
+#: rosary/helpers/processor.py:77
 msgid " - remider"
 msgstr " - przypomnienie"
 

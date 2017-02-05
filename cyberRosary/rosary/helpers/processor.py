@@ -2,7 +2,19 @@
 from django.utils.translation import ugettext as _
 from django.utils.datetime_safe import datetime
 
+# import django
+# django.setup()
+
 from cyberRosary import settings
+
+from rosary.models import Intension, PersonIntension, Mystery
+
+from django.core.mail import send_mail
+from django.utils import translation
+
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 def find_recent_intensions(count, start_date=datetime.today()):
@@ -17,19 +29,20 @@ def find_person_itnensions(current_intension):
     return person_intensions
 
 
-def notify_not_downloaded(person_intensions, message, subject_ext=""):
+def notify_not_downloaded(person_intensions, template, subject_ext=""):
     logger.info("Notyfying not downloaded.")
+    if not template:
+        template = _(
+            "God bless,\n Under the link \n%s\nthere is a new Live Rosary mystery.\n Pease report any problems with downloading or opening the file to rosary@cyberarche.pl email address.\nSincerely\nCyberarche Team")
     for pi in person_intensions:
         if pi.person.active and not pi.downloaded:
-            code = settings.LOCATION_TEMPLATE % pi.code
+            url = settings.LOCATION_TEMPLATE % pi.code
             email = pi.person.email
-            if not message:
-                message = _(
-                    "God bless,\n Under the link \n%s\nthere is a new Live Rosary mystery.\n Pease report any problems with downloading or opening the file to rosary@cyberarche.pl email address.\nSincerely\nCyberarche Team") % code
+            message = template % url
             # month = datetime.today().strftime('%B')
             month = datetime.today().strftime('%m-%Y')
             subject = _("LR mystery for %(month)s%(subject_ext)s") % {'month': month, 'subject_ext': subject_ext}
-            send_mail(subject, message, "rosary@cyberarche.pl", (email, 'rosarium.mariae.eroza@gmail.com'))
+            send_mail(subject, message, "rosary@cyberarche.pl", (email,))
             logger.info("Send email to %s with code %s and body %s" % (email, pi.code, message))
 
 
@@ -69,24 +82,10 @@ def process_intensions():
         logger.error("Cannot find person intensions for period %s" % str(recent_intensions[0]))
 
 
-import logging
+def run():
+    language = settings.LANGUAGE_CODE
+    if not language:
+        language = "pl-pl"
+    translation.activate(language)
 
-import django
-
-django.setup()
-
-from django.utils import translation
-
-language = settings.LANGUAGE_CODE
-if not language:
-    language = "pl-pl"
-
-translation.activate(language)
-
-from rosary.models import Intension, PersonIntension, Mystery
-
-from django.core.mail import send_mail
-
-logger = logging.getLogger(__name__)
-
-process_intensions()
+    process_intensions()
