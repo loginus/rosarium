@@ -30,7 +30,7 @@ def notify_not_downloaded(person_intensions, message, subject_ext=""):
             month = datetime.today().strftime('%m-%Y')
             subject = _("LR mystery for %(month)s%(subject_ext)s") % {'month': month, 'subject_ext': subject_ext}
             send_mail(subject, message, "rosary@cyberarche.pl", (email, 'rosarium.mariae.eroza@gmail.com'))
-            logger.info("Send email to %s with code %s" % (email, pi.code))
+            logger.info("Send email to %s with code %s and body %s" % (email, pi.code, message))
 
 
 def rotate_intensions(previous_intensions):
