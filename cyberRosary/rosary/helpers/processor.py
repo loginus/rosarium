@@ -58,11 +58,12 @@ def rotate_intensions(previous_intensions):
     created = []
     for pi in current_person_intensions:
         person = pi.person
-        mystery_no = (pi.mystery.number % 20) + 1
-        mystery = mysteries_dict[mystery_no]
-        new_pi = PersonIntension(person=person, intension=new_intension, mystery=mystery)
-        new_pi.save()
-        created.append(new_pi)
+        if person.active:
+            mystery_no = (pi.mystery.number % 20) + 1
+            mystery = mysteries_dict[mystery_no]
+            new_pi = PersonIntension(person=person, intension=new_intension, mystery=mystery)
+            new_pi.save()
+            created.append(new_pi)
     return created
 
 

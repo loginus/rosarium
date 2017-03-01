@@ -49,7 +49,7 @@ def index(request):
     if not intension:
         pis = []
     else:
-        pis = PersonIntension.objects.filter(intension=intension).order_by('mystery__number').prefetch_related('person',
+        pis = PersonIntension.objects.filter(intension=intension, person__active=True).order_by('mystery__number').prefetch_related('person',
                                                                                                                'mystery')
     logger.debug("found: %d" % len(pis))
     context = {'pis': pis}
