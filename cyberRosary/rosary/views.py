@@ -52,7 +52,10 @@ def index(request):
         pis = PersonIntension.objects.filter(intension=intension, person__active=True).order_by('mystery__number').prefetch_related('person',
                                                                                                                'mystery')
     logger.debug("found: %d" % len(pis))
-    context = {'pis': pis}
+    not_downloaded = sum(not pi.downloaded for pi in pis)
+    last_downloaded = max(pi.downloaded for pi in pis if pi.downloaded)
+    context = {'pis': pis, 'not_downloaded' : not_downloaded, 'last_downloaded' : last_downloaded}
+
 
     return render(request, 'rosary/index.html', context)
 

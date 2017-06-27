@@ -15,9 +15,10 @@
     {% if pis %}
     <table>
         <thead>
-        <th onclick="sortTable(this, 0);">{% trans "Name" %}</th>
-        <th onclick="sortTable(this, 1);">{% trans "Mystery" %}</th>
-        <th onclick="sortTable(this, 2);">{% trans "Date" %}</th>
+        <th>{% trans "Name" %}</th>
+        <th>{% trans "Mystery" %}</th>
+        <th>{% trans "Date" %}</th>
+        <th>{% trans "Last activity" %}</th>
         </thead>
         <tbody>
         {% for pi in pis %}
@@ -33,10 +34,14 @@
                 {% endif %}
 
             </td>
+            <td class="txt--left">{{ pi.person.last_activity|date:"Y-m-d" }}</td>
         </tr>
         {% endfor %}
         </tbody>
     </table>
+    <p>{% blocktrans %} {{not_downloaded}} haven't download.
+    Last download on {{last_downloaded}}{% endblocktrans %}
+    </p>
     {% else %}
     <p>{% trans "No e-Rose members are available." %}</p>
     {% endif %}
