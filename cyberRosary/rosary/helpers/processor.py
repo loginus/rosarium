@@ -9,8 +9,9 @@ from cyberRosary import settings
 
 from rosary.models import Intension, PersonIntension, Mystery
 
-from django.core.mail import send_mail
 from django.utils import translation
+
+from mailqueue.models import MailerMessage
 
 import logging
 
@@ -42,7 +43,7 @@ def notify_not_downloaded(person_intensions, template, subject_ext=""):
             # month = datetime.today().strftime('%B')
             month = datetime.today().strftime('%m-%Y')
             subject = _("LR mystery for %(month)s%(subject_ext)s") % {'month': month, 'subject_ext': subject_ext}
-            send_mail(subject, message, "rosary@cyberarche.pl", (email,))
+            send_mail(subject, message, "rosary@cyberarche.pl", email)
             logger.info("Send email to %s with code %s and body %s" % (email, pi.code, message))
 
 
@@ -82,6 +83,13 @@ def process_intensions():
     else:
         logger.error("Cannot find person intensions for period %s" % str(recent_intensions[0]))
 
+def send_mail(subject, content, from_addres, to_address):
+    new_message = MailerMessage()
+    new_message.subject = subject
+    new_message.content = content
+    new_message.from_addres = from_addres
+    new_message.to_address = to_address
+    new_message.save()
 
 def run():
     language = settings.LANGUAGE_CODE
