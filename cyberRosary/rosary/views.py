@@ -79,14 +79,14 @@ def _generate_pdf(request, unique_code):
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = 'attachment; filename="' + title + '.pdf"'
     logger.info("Content-disposition %s" % response['Content-Disposition'])
-    buffer = BytesIO()
+    page_buffer = BytesIO()
     pdfmetrics.registerFont(TTFont('DejaVuSerif', 'DejaVuSerif.ttf'))
     pdfmetrics.registerFont(TTFont('DejaVuSerifBd', 'DejaVuSerif-Bold.ttf'))
     pdfmetrics.registerFont(TTFont('DejaVuSerifIt', 'DejaVuSerif-Italic.ttf'))
     pdfmetrics.registerFont(TTFont('DejaVuSerifBI', 'DejaVuSerif-BoldItalic.ttf'))
     registerFontFamily('DejaVuSerif', normal='DejaVuSerif', bold='DejaVuSerifBd', italic='DejaVuSerifIt',
                        boldItalic='DejaVuSerifBI')
-    doc = SimpleDocTemplate(buffer, pagesize=letter,
+    doc = SimpleDocTemplate(page_buffer, pagesize=letter,
                             rightMargin=54, leftMargin=54,
                             topMargin=36, bottomMargin=18, title=title)
     width = doc.pagesize[0] - doc.leftMargin - doc.rightMargin
@@ -94,6 +94,7 @@ def _generate_pdf(request, unique_code):
     logo = pi.mystery.image_path.path
     # group = pi.mystery.group
     user = pi.person.name
+    rosa = pi.person.rosa.name
     start_date = pi.intension.start_date
     end_date = pi.intension.end_date
     quote = _prepare_text(pi.mystery.quote)
@@ -111,7 +112,7 @@ def _generate_pdf(request, unique_code):
     styles.add(ParagraphStyle(name='H2', alignment=enums.TA_CENTER, fontName='DejaVuSerifBd', fontSize=10))
     styles.add(ParagraphStyle(name='H1', alignment=enums.TA_CENTER, fontName='DejaVuSerifBd', fontSize=12))
     # User
-    story.append(Paragraph(user, styles["NormalP"]))
+    story.append(Paragraph("%s [%s]" %(user, rosa), styles["NormalP"]))
     story.append(Spacer(1, 12))
     # line
     d = Drawing(doc.width, 1)
@@ -150,8 +151,8 @@ def _generate_pdf(request, unique_code):
             % {'date_from': str(start_date), 'date_to': str(end_date)}
             + '</font>', styles["CenterP"]))
     doc.build(story)
-    pdf = buffer.getvalue()
-    buffer.close()
+    pdf = page_buffer.getvalue()
+    page_buffer.close()
     response.write(pdf)
     return (response, pi)
 
