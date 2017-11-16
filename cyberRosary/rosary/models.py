@@ -71,6 +71,7 @@ class Person(models.Model):
     active = models.BooleanField(null=False, default=True)
     last_activity = models.DateTimeField(null=True, blank=True)
     rosa = models.ForeignKey(Rosa, null=True)
+    language = models.CharField(max_length=7, default="pl-pl")
 
     def __unicode__(self):
         return self.name

@@ -42,6 +42,8 @@
     <p>{% blocktrans %} {{not_downloaded}} haven't downloaded.
     Last download on {{last_downloaded}}{% endblocktrans %}
     </p>
+    <a href="{% url 'full_printout' %}">
+                {% trans "Print all." %}</a>
     {% else %}
     <p>{% trans "No e-Rose members are available." %}</p>
     {% endif %}

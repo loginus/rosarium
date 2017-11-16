@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-05 20:28+0100\n"
+"POT-Creation-Date: 2017-11-16 13:11+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
 
-#: rosary/helpers/processor.py:36
+#: rosary/helpers/processor.py:40
 #, python-format
 msgid ""
 "God bless,\n"
@@ -32,7 +32,7 @@ msgid ""
 "Cyberarche Team"
 msgstr ""
 "Szczęść Boże,\n"
-"W załączeniu przesyłamy link do tajemnicy różańcowej. %s\n"
+"Niniejszym przesyłamy link do tajemnicy różańcowej. %s\n"
 "Uprzejmie prosimy o potwierdzenie odbioru tajemnicy.\n"
 "\n"
 "Z góry dziękujemy.\n"
@@ -41,12 +41,12 @@ msgstr ""
 "Żywy Różaniec\n"
 "Polska Misja Katolicka w Zurychu"
 
-#: rosary/helpers/processor.py:44
+#: rosary/helpers/processor.py:47
 #, python-format
 msgid "LR mystery for %(month)s%(subject_ext)s"
 msgstr "Tajemnica ŻR na %(month)s%(subject_ext)s"
 
-#: rosary/helpers/processor.py:77
+#: rosary/helpers/processor.py:81
 msgid " - remider"
 msgstr " - przypomnienie"
 
@@ -68,7 +68,7 @@ msgstr "Tajemnica Chwalebna"
 
 #: rosary/templates/rosary/404.html:5
 msgid "Page not found- 404"
-msgstr ""
+msgstr "Nie znaleziono strony"
 
 #: rosary/templates/rosary/base/root_template.html:8
 msgid "e-Rosa members"
@@ -94,30 +94,55 @@ msgstr "Tajemnica"
 msgid "Date"
 msgstr "Data"
 
-#: rosary/templates/rosary/index.html:32
+#: rosary/templates/rosary/index.html:21
+msgid "Last activity"
+msgstr "Ostatnia aktywność"
+
+#: rosary/templates/rosary/index.html:33
 msgid "Not downloaded"
 msgstr "Nie pobrana"
 
-#: rosary/templates/rosary/index.html:41
+#: rosary/templates/rosary/index.html:42
+#, python-format
+msgid ""
+" %(not_downloaded)s haven't downloaded.\n"
+"    Last download on %(last_downloaded)s"
+msgstr ""
+"%(not_downloaded)s nie pobrało.\n"
+"    Ostatnie pobranie o %(last_downloaded)s"
+
+#: rosary/templates/rosary/index.html:46
+msgid "Print all."
+msgstr "Wydrukuj wszystkie"
+
+#: rosary/templates/rosary/index.html:48
 msgid "No e-Rose members are available."
 msgstr "Brak członków e-Róży"
 
-#: rosary/views.py:134
+#: rosary/views.py:90
+msgid "rosarium_all_mysteries"
+msgstr "rozaniec_wszystkie_tajemnice"
+
+#: rosary/views.py:128
+msgid "No rosa assigned"
+msgstr "Nie przypisano Róży"
+
+#: rosary/views.py:169
 #, python-format
 msgid "<b>%s</b>"
 msgstr "<b>%s</b>"
 
-#: rosary/views.py:136
+#: rosary/views.py:171
 #, python-format
 msgid "<b>Papal Intention:</b> %s"
 msgstr "<b>Intencja papieska:</b> %s"
 
-#: rosary/views.py:138
+#: rosary/views.py:173
 #, python-format
 msgid "<b>Intension of Polish Catholic Mission:</b> %s"
 msgstr "<b>Intencja Polskiej Misji Katolickiej:</b> %s"
 
-#: rosary/views.py:146
+#: rosary/views.py:181
 #, python-format
 msgid "Mystery ought to be prayed from %(date_from)s to %(date_to)s"
 msgstr "Tajemnicę należy odmawiać od %(date_from)s do %(date_to)s"

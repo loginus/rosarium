@@ -32,10 +32,12 @@ def find_person_itnensions(current_intension):
 
 def notify_not_downloaded(person_intensions, template, subject_ext=""):
     logger.info("Notyfying not downloaded.")
-    if not template:
-        template = _(
-            "God bless,\n Under the link \n%s\nthere is a new Live Rosary mystery.\n Pease report any problems with downloading or opening the file to rosary@cyberarche.pl email address.\nSincerely\nCyberarche Team")
     for pi in person_intensions:
+        if not template:
+            lang = pi.person.language
+            translation.activate(lang)
+            template = _(
+                "God bless,\n Under the link \n%s\nthere is a new Live Rosary mystery.\n Pease report any problems with downloading or opening the file to rosary@cyberarche.pl email address.\nSincerely\nCyberarche Team")
         if pi.person.active and not pi.downloaded:
             url = settings.LOCATION_TEMPLATE % pi.code
             email = pi.person.email
@@ -83,6 +85,7 @@ def process_intensions():
     else:
         logger.error("Cannot find person intensions for period %s" % str(recent_intensions[0]))
 
+
 def send_mail(subject, content, from_addres, to_address):
     new_message = MailerMessage()
     new_message.subject = subject
@@ -91,10 +94,6 @@ def send_mail(subject, content, from_addres, to_address):
     new_message.to_address = to_address
     new_message.save()
 
-def run():
-    language = settings.LANGUAGE_CODE
-    if not language:
-        language = "pl-pl"
-    translation.activate(language)
 
+def run():
     process_intensions()
