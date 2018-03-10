@@ -9,8 +9,9 @@ from cyberRosary import settings
 
 from rosary.models import Intension, PersonIntension, Mystery
 
-from django.core.mail import send_mail
 from django.utils import translation
+
+from mailqueue.models import MailerMessage
 
 import logging
 
@@ -31,10 +32,12 @@ def find_person_itnensions(current_intension):
 
 def notify_not_downloaded(person_intensions, template, subject_ext=""):
     logger.info("Notyfying not downloaded.")
-    if not template:
-        template = _(
-            "God bless,\n Under the link \n%s\nthere is a new Live Rosary mystery.\n Pease report any problems with downloading or opening the file to rosary@cyberarche.pl email address.\nSincerely\nCyberarche Team")
     for pi in person_intensions:
+        if not template:
+            lang = pi.person.language
+            translation.activate(lang)
+            template = _(
+                "God bless,\n Under the link \n%s\nthere is a new Live Rosary mystery.\n Pease report any problems with downloading or opening the file to rosary@cyberarche.pl email address.\nSincerely\nCyberarche Team")
         if pi.person.active and not pi.downloaded:
             url = settings.LOCATION_TEMPLATE % pi.code
             email = pi.person.email
@@ -42,7 +45,7 @@ def notify_not_downloaded(person_intensions, template, subject_ext=""):
             # month = datetime.today().strftime('%B')
             month = datetime.today().strftime('%m-%Y')
             subject = _("LR mystery for %(month)s%(subject_ext)s") % {'month': month, 'subject_ext': subject_ext}
-            send_mail(subject, message, "rosary@cyberarche.pl", (email,))
+            send_mail(subject, message, "rosary@cyberarche.pl", email)
             logger.info("Send email to %s with code %s and body %s" % (email, pi.code, message))
 
 
@@ -83,10 +86,14 @@ def process_intensions():
         logger.error("Cannot find person intensions for period %s" % str(recent_intensions[0]))
 
 
-def run():
-    language = settings.LANGUAGE_CODE
-    if not language:
-        language = "pl-pl"
-    translation.activate(language)
+def send_mail(subject, content, from_addres, to_address):
+    new_message = MailerMessage()
+    new_message.subject = subject
+    new_message.content = content
+    new_message.from_addres = from_addres
+    new_message.to_address = to_address
+    new_message.save()
 
+
+def run():
     process_intensions()

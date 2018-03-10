@@ -46,6 +46,13 @@ class Mystery(models.Model):
         return self.number_group() + " " + self.title
 
 
+
+class Rosa(models.Model):
+    name = models.CharField(max_length=255)
+
+    def __unicode__(self):
+        return self.name
+
 class Intension(models.Model):
     start_date = models.DateField(unique=True)
     end_date = models.DateField(unique=True)
@@ -63,6 +70,8 @@ class Person(models.Model):
     email = models.EmailField(unique=True)
     active = models.BooleanField(null=False, default=True)
     last_activity = models.DateTimeField(null=True, blank=True)
+    rosa = models.ForeignKey(Rosa, null=True)
+    language = models.CharField(max_length=7, default="pl-pl")
 
     def __unicode__(self):
         return self.name

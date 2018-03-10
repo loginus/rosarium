@@ -1,9 +1,10 @@
 from django.contrib import admin
 
-from .models import Intension, Mystery, Person, PersonIntension
+from .models import Intension, Mystery, Person, PersonIntension, Rosa
 from django.utils import formats
 
 admin.site.register(Mystery)
+admin.site.register(Rosa)
 
 class PersonAdmin(admin.ModelAdmin):
     exclude = ('last_activity',)
