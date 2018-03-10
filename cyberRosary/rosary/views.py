@@ -9,15 +9,13 @@ from django.utils import timezone
 from django.utils.translation import ugettext as _
 from django.views.decorators.cache import cache_page
 from reportlab.graphics.shapes import Drawing, Line
-from reportlab.lib import enums
-from reportlab.lib import utils
+from reportlab.lib import enums, utils
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.units import cm
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image
-from reportlab.platypus import Table
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image, PageBreak, Table
 from django.contrib.auth import decorators
 
 from rosary.models import PersonIntension, Intension
@@ -82,7 +80,7 @@ def full_printout(request):
         lang = pi.person.language
         translation.activate(lang)
         story = _build_page(doc, pi, pi.mystery.title)
-        #todo new page start
+        story.append(PageBreak())
         stories.extend(story)
     doc.build(stories)
     pdf = page_buffer.getvalue()
