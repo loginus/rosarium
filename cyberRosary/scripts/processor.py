@@ -42,7 +42,6 @@ def notify_not_downloaded(person_intensions, template, subject_ext=""):
             url = settings.LOCATION_TEMPLATE % pi.code
             email = pi.person.email
             message = template % url
-            # month = datetime.today().strftime('%B')
             month = datetime.today().strftime('%m-%Y')
             subject = _("LR mystery for %(month)s%(subject_ext)s") % {'month': month, 'subject_ext': subject_ext}
             send_mail(subject, message, "rosary@cyberarche.pl", email)
