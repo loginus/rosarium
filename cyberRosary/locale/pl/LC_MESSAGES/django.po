@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-11-16 13:11+0100\n"
+"POT-Creation-Date: 2018-03-11 20:35+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,37 +18,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
-
-#: rosary/helpers/processor.py:40
-#, python-format
-msgid ""
-"God bless,\n"
-" Under the link \n"
-"%s\n"
-"there is a new Live Rosary mystery.\n"
-" Pease report any problems with downloading or opening the file to "
-"rosary@cyberarche.pl email address.\n"
-"Sincerely\n"
-"Cyberarche Team"
-msgstr ""
-"Szczęść Boże,\n"
-"Przesyłamy link do tajemnicy różańcowej.\n"
-"Uprzejmie prosimy o pobranie tajemnicy na komputer lub urządzenie przenośne oraz o potwierdzenie jej odbioru.\n"
-"%s\n"
-"Z góry dziękujemy.\n"
-"Z serdecznymi pozdrowieniami i modlitwą,\n"
-"\n"
-"Żywy Różaniec\n"
-"Polska Misja Katolicka w Zurychu"
-
-#: rosary/helpers/processor.py:47
-#, python-format
-msgid "LR mystery for %(month)s%(subject_ext)s"
-msgstr "Tajemnica ŻR na %(month)s%(subject_ext)s"
-
-#: rosary/helpers/processor.py:81
-msgid " - remider"
-msgstr " - przypomnienie"
 
 #: rosary/models.py:17
 msgid "Joyful Mystery"
@@ -119,33 +88,67 @@ msgstr "Wydrukuj wszystkie"
 msgid "No e-Rose members are available."
 msgstr "Brak członków e-Róży"
 
-#: rosary/views.py:90
+#: rosary/views.py:88
 msgid "rosarium_all_mysteries"
 msgstr "rozaniec_wszystkie_tajemnice"
 
-#: rosary/views.py:128
+#: rosary/views.py:126
 msgid "No rosa assigned"
 msgstr "Nie przypisano Róży"
 
-#: rosary/views.py:169
+#: rosary/views.py:167
 #, python-format
 msgid "<b>%s</b>"
 msgstr "<b>%s</b>"
 
-#: rosary/views.py:171
+#: rosary/views.py:169
 #, python-format
 msgid "<b>Papal Intention:</b> %s"
 msgstr "<b>Intencja papieska:</b> %s"
 
-#: rosary/views.py:173
+#: rosary/views.py:171
 #, python-format
 msgid "<b>Intension of Polish Catholic Mission:</b> %s"
 msgstr "<b>Intencja Polskiej Misji Katolickiej:</b> %s"
 
-#: rosary/views.py:181
+#: rosary/views.py:179
 #, python-format
 msgid "Mystery ought to be prayed from %(date_from)s to %(date_to)s"
 msgstr "Tajemnicę należy odmawiać od %(date_from)s do %(date_to)s"
+
+#: scripts/processor.py:39
+#, fuzzy
+#| msgid " - remider"
+msgid " - reminder"
+msgstr " - przypomnienie"
+
+#: scripts/processor.py:41
+#, python-format
+msgid ""
+"God bless,\n"
+" Under the link \n"
+"%s\n"
+"there is a new Live Rosary mystery.\n"
+" Pease report any problems with downloading or opening the file to "
+"rosary@cyberarche.pl email address.\n"
+"Sincerely\n"
+"Cyberarche Team"
+msgstr ""
+"Szczęść Boże,\n"
+"Przesyłamy link do tajemnicy różańcowej.\n"
+"Uprzejmie prosimy o pobranie tajemnicy na komputer lub urządzenie przenośne "
+"oraz o potwierdzenie jej odbioru.\n"
+"%s\n"
+"Z góry dziękujemy.\n"
+"Z serdecznymi pozdrowieniami i modlitwą,\n"
+"\n"
+"Żywy Różaniec\n"
+"Polska Misja Katolicka w Zurychu"
+
+#: scripts/processor.py:47
+#, python-format
+msgid "LR mystery for %(month)s%(subject_ext)s"
+msgstr "Tajemnica ŻR na %(month)s%(subject_ext)s"
 
 #~ msgid "<b>Evanelisation Papal Intention:</b> %s"
 #~ msgstr "<b>Intencja papieska ewangelizacyjna:</b> %s"
