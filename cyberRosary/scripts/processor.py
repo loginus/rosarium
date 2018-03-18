@@ -36,7 +36,7 @@ def notify_not_downloaded(person_intensions, template, reminder=False):
         if not template:
             lang = pi.person.language
             translation.activate(lang)
-            subject_ext = _(" - reminder"))
+            subject_ext = _(" - reminder")
             template = _(
                 "God bless,\n Under the link \n%s\nthere is a new Live Rosary mystery.\n Pease report any problems with downloading or opening the file to rosary@cyberarche.pl email address.\nSincerely\nCyberarche Team")
         if pi.person.active and not pi.downloaded:
