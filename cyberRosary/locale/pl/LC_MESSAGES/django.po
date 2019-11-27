@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-11 20:35+0100\n"
+"POT-Creation-Date: 2018-07-04 19:46+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -116,13 +116,11 @@ msgstr "<b>Intencja Polskiej Misji Katolickiej:</b> %s"
 msgid "Mystery ought to be prayed from %(date_from)s to %(date_to)s"
 msgstr "Tajemnicę należy odmawiać od %(date_from)s do %(date_to)s"
 
-#: scripts/processor.py:39
-#, fuzzy
-#| msgid " - remider"
+#: scripts/processor.py:42
 msgid " - reminder"
 msgstr " - przypomnienie"
 
-#: scripts/processor.py:41
+#: scripts/processor.py:45
 #, python-format
 msgid ""
 "God bless,\n"
@@ -145,7 +143,7 @@ msgstr ""
 "Żywy Różaniec\n"
 "Polska Misja Katolicka w Zurychu"
 
-#: scripts/processor.py:47
+#: scripts/processor.py:52
 #, python-format
 msgid "LR mystery for %(month)s%(subject_ext)s"
 msgstr "Tajemnica ŻR na %(month)s%(subject_ext)s"

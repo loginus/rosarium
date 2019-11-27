@@ -1,0 +1,11 @@
+public
+tmp
+cyberRosary/settings.py
+passenger_wsgi.py
+*.jpg
+*.png
+exclude.txt
+mysite.log
+upload.sh
+.idea
+rosary.db

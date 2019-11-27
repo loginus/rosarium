@@ -30,18 +30,21 @@ def find_person_itnensions(current_intension):
     return person_intensions
 
 
-def notify_not_downloaded(person_intensions, template, reminder=False):
+def notify_not_downloaded(person_intensions, current_template, reminder=False):
     logger.info("Notyfying not downloaded.")
     subject_ext = ""
     for pi in person_intensions:
         if pi.person.active and not pi.downloaded:
             lang = pi.person.language
+            logger.info("Activating language %s and reminder %s" % (lang, reminder))
             translation.activate(lang)
             if reminder:
                 subject_ext = _(" - reminder")
-            if not template:
+            if not current_template:
                 template = _(
                     "God bless,\n Under the link \n%s\nthere is a new Live Rosary mystery.\n Pease report any problems with downloading or opening the file to rosary@cyberarche.pl email address.\nSincerely\nCyberarche Team")
+            else:
+                template = current_template
             url = settings.LOCATION_TEMPLATE % pi.code
             email = pi.person.email
             message = template % url
@@ -80,8 +83,10 @@ def process_intensions():
     person_intensions = find_person_itnensions(recent_intensions[0])
     current_message = recent_intensions[0].message
     if person_intensions:
+        logger.info("Notyfying people who did not download the message.")
         notify_not_downloaded(person_intensions, current_message, True)
     elif len(recent_intensions) > 1:
+        logger.info("Rotating and and sending new notifications.")
         created_intensions = rotate_intensions(recent_intensions)
         notify_not_downloaded(created_intensions, current_message)
     else:
