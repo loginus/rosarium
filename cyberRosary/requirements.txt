@@ -1,5 +1,0 @@
-django
-reportlab
-django-mail-queue
-django-extensions
-django-sslify-admin
