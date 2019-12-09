@@ -27,7 +27,7 @@ class Mystery(models.Model):
     meditation = models.TextField()
 
     def number_group(self, full=True):
-        number_in_group = ((self.number - 1) % 5) + 1
+        number_in_group = ((self.number.value_from_object(self.number) - 1) % 5) + 1
         if number_in_group < 4:
             seq = 'I' * number_in_group
         elif number_in_group < 5:
@@ -43,8 +43,7 @@ class Mystery(models.Model):
         return self.number_group(full=False)
 
     def __unicode__(self):
-        return self.number_group() + " " + self.title
-
+        return self.number_group() + " " + self.title.value_from_object(self.title)
 
 
 class Rosa(models.Model):
@@ -52,6 +51,7 @@ class Rosa(models.Model):
 
     def __unicode__(self):
         return self.name
+
 
 class Intension(models.Model):
     start_date = models.DateField(unique=True)
@@ -70,7 +70,7 @@ class Person(models.Model):
     email = models.EmailField(unique=True)
     active = models.BooleanField(null=False, default=True)
     last_activity = models.DateTimeField(null=True, blank=True)
-    rosa = models.ForeignKey(Rosa, null=True)
+    rosa = models.ForeignKey(Rosa, null=True, on_delete=models.PROTECT)
     language = models.CharField(max_length=7, default="pl-pl")
 
     def __unicode__(self):
@@ -78,9 +78,9 @@ class Person(models.Model):
 
 
 class PersonIntension(models.Model):
-    person = models.ForeignKey(Person)
-    intension = models.ForeignKey(Intension)
-    mystery = models.ForeignKey(Mystery)
+    person = models.ForeignKey(Person, on_delete=models.PROTECT)
+    intension = models.ForeignKey(Intension, on_delete=models.PROTECT)
+    mystery = models.ForeignKey(Mystery, on_delete=models.PROTECT)
     downloaded = models.DateTimeField(null=True, blank=True)
     code = models.CharField(max_length=63, unique=True)
 
