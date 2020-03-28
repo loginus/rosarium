@@ -6,14 +6,14 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
-django = "<2"
+django = "*"
 reportlab = "*"
 django-mail-queue = "*"
 django-extensions = "*"
-django-sslify-admin = "*"
 google-api-python-client = "*"
 google-auth-httplib2  = "*"
 google-auth-oauthlib = "*"
+django-ssl-admin = "*"
 
 [requires]
 python_version = "3.7"

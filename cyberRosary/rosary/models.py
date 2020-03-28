@@ -27,7 +27,7 @@ class Mystery(models.Model):
     meditation = models.TextField()
 
     def number_group(self, full=True):
-        number_in_group = ((self.number.value_from_object(self.number) - 1) % 5) + 1
+        number_in_group = ((self.number - 1) % 5) + 1
         if number_in_group < 4:
             seq = 'I' * number_in_group
         elif number_in_group < 5:
@@ -43,7 +43,7 @@ class Mystery(models.Model):
         return self.number_group(full=False)
 
     def __unicode__(self):
-        return self.number_group() + " " + self.title.value_from_object(self.title)
+        return self.number_group() + " " + self.title
 
 
 class Rosa(models.Model):
