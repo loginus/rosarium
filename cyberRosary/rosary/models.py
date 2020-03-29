@@ -42,14 +42,14 @@ class Mystery(models.Model):
     def short_number_group(self):
         return self.number_group(full=False)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.number_group() + " " + self.title
 
 
 class Rosa(models.Model):
     name = models.CharField(max_length=255)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
 
@@ -61,7 +61,7 @@ class Intension(models.Model):
     pcm_intension = models.TextField(max_length=2047)
     message = models.TextField(null=True, blank=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return str(self.start_date) + " - " + str(self.end_date)
 
 
@@ -73,7 +73,7 @@ class Person(models.Model):
     rosa = models.ForeignKey(Rosa, null=True, on_delete=models.PROTECT)
     language = models.CharField(max_length=7, default="pl-pl")
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
 
@@ -89,5 +89,5 @@ class PersonIntension(models.Model):
             self.code = str(uuid.uuid4())
         super(PersonIntension, self).save()
 
-    def __unicode__(self):
+    def __str__(self):
         return self.code

@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "519a54dba627e08f9d49e911fa57012df19e2ea4c6eabb8e4b35c6b38d5f4be8"
+            "sha256": "6a5d22de782b7b4660814ac6a71546000b33b5459ef3275a6fb37671aa7598fc"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -66,14 +66,6 @@
             ],
             "index": "pypi",
             "version": "==3.2.4"
-        },
-        "django-ssl-admin": {
-            "hashes": [
-                "sha256:ea3402f5617c6004c58b78ba93d5de3f162e98868e66e7d79359d6e3de67c3c9",
-                "sha256:eddb90418b2f4648029e1e68244a1cca59edbddc82e50601fbb4da71029f8626"
-            ],
-            "index": "pypi",
-            "version": "==1.1.4"
         },
         "google-api-core": {
             "hashes": [
