@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-04 19:46+0200\n"
+"POT-Creation-Date: 2020-03-29 12:27+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -56,22 +56,26 @@ msgid "Name"
 msgstr "Nazwisko"
 
 #: rosary/templates/rosary/index.html:19
+msgid "Rosa"
+msgstr "Róża"
+
+#: rosary/templates/rosary/index.html:20
 msgid "Mystery"
 msgstr "Tajemnica"
 
-#: rosary/templates/rosary/index.html:20
+#: rosary/templates/rosary/index.html:21
 msgid "Date"
 msgstr "Data"
 
-#: rosary/templates/rosary/index.html:21
+#: rosary/templates/rosary/index.html:22
 msgid "Last activity"
 msgstr "Ostatnia aktywność"
 
-#: rosary/templates/rosary/index.html:33
+#: rosary/templates/rosary/index.html:35
 msgid "Not downloaded"
 msgstr "Nie pobrana"
 
-#: rosary/templates/rosary/index.html:42
+#: rosary/templates/rosary/index.html:44
 #, python-format
 msgid ""
 " %(not_downloaded)s haven't downloaded.\n"
@@ -80,11 +84,11 @@ msgstr ""
 "%(not_downloaded)s nie pobrało.\n"
 "    Ostatnie pobranie o %(last_downloaded)s"
 
-#: rosary/templates/rosary/index.html:46
+#: rosary/templates/rosary/index.html:48
 msgid "Print all."
 msgstr "Wydrukuj wszystkie"
 
-#: rosary/templates/rosary/index.html:48
+#: rosary/templates/rosary/index.html:50
 msgid "No e-Rose members are available."
 msgstr "Brak członków e-Róży"
 

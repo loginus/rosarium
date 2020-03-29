@@ -15,18 +15,20 @@
     {% if pis %}
     <table>
         <thead>
-        <th>{% trans "Name" %}</th>
-        <th>{% trans "Mystery" %}</th>
-        <th>{% trans "Date" %}</th>
-        <th>{% trans "Last activity" %}</th>
+        <th class="txt--center">{% trans "Name" %}</th>
+        <th class="txt--center">{% trans "Rosa" %}</th>
+        <th class="txt--center">{% trans "Mystery" %}</th>
+        <th class="txt--center">{% trans "Date" %}</th>
+        <th class="txt--center">{% trans "Last activity" %}</th>
         </thead>
         <tbody>
         {% for pi in pis %}
         <tr class="txt--right {% cycle 'bg--white' 'bg--light-gray' %}  ">
             <td class="txt--left">{{ pi.person.name }}</td>
+            <td class="txt--left nowrap">{{ pi.person.rosa|default:"N/A" }}</td>
             <td class="txt--left"><a href="{% url 'check_printout' pi.code %}">
                 [{{ pi.mystery.short_number_group }}] {{ pi.mystery.title }}</a></td>
-            <td class="txt--left">
+            <td class="txt--right nowrap">
                 {% if pi.downloaded %}
                 <span class="fnt--green">{{ pi.downloaded|date:"Y-m-d" }}</span>
                 {% else %}
@@ -34,7 +36,7 @@
                 {% endif %}
 
             </td>
-            <td class="txt--left">{{ pi.person.last_activity|date:"Y-m-d" }}</td>
+            <td class="txt--right">{{ pi.person.last_activity|date:"Y-m-d" }}</td>
         </tr>
         {% endfor %}
         </tbody>
