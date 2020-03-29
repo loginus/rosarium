@@ -9,3 +9,6 @@ mysite.log
 upload.sh
 .idea
 rosary.db
+rosary_prod.db
+credentials.json
+token.pickle
