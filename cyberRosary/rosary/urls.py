@@ -1,11 +1,12 @@
-from django.conf.urls import url
+# from django.conf.urls import url
+from django.urls import re_path
 
 from . import views
 
 urlpatterns = [
-    url(r'^$', views.index, name='index'),
+    re_path(r'^$', views.index, name='index'),
     # ex: /rosary/abcdef0123456789/
-    url(r'^(?P<unique_code>[0-9a-f-]+)/$', views.printout, name='printout'),
-    url(r'^(?P<unique_code>[0-9a-f-]+)/check$', views.check_printout, name='check_printout'),
-    url(r'^all$', views.full_printout, name='full_printout'),
+    re_path(r'^(?P<unique_code>[0-9a-f-]+)/$', views.printout, name='printout'),
+    re_path(r'^(?P<unique_code>[0-9a-f-]+)/check$', views.check_printout, name='check_printout'),
+    re_path(r'^all$', views.full_printout, name='full_printout'),
 ]

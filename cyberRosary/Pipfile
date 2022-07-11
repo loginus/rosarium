@@ -4,15 +4,18 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
+google-auth-oauthlib = "*"
 
 [packages]
 django = "*"
 reportlab = "*"
 django-mail-queue = "*"
 django-extensions = "*"
-google-api-python-client = "*"
-google-auth-httplib2  = "*"
-google-auth-oauthlib = "*"
+#google-api-python-client = "*"
+#google-api-python-client = "*"
+#google-auth-httplib2  = "*"
+#google-auth-oauthlib = "*"
+django-gmailapi-backend = "*"
 
 [requires]
-python_version = "3.7"
+#python_version = "3.7"

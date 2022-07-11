@@ -6,7 +6,7 @@ from io import BytesIO
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 from django.views.decorators.cache import cache_page
 from reportlab.graphics.shapes import Drawing, Line
 from reportlab.lib import enums, utils
@@ -43,7 +43,10 @@ def index(request):
     pis = _current_intensions()
     logger.debug("found: %d" % len(pis))
     not_downloaded = sum(not pi.downloaded for pi in pis)
-    last_downloaded = max(pi.downloaded for pi in pis if pi.downloaded)
+    downloaded = [pi.downloaded for pi in pis if pi.downloaded]
+    last_downloaded = None
+    if downloaded:
+        last_downloaded = max(downloaded)
     context = {'pis': pis, 'not_downloaded': not_downloaded, 'last_downloaded': last_downloaded}
 
     return render(request, 'rosary/index.html', context)

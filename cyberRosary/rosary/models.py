@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 import uuid
 
 from django.db import models
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 
 
 # Create your models here.
@@ -84,10 +84,10 @@ class PersonIntension(models.Model):
     downloaded = models.DateTimeField(null=True, blank=True)
     code = models.CharField(max_length=63, unique=True)
 
-    def save(self):
+    def save(self, *args, **kwargs):
         if self.pk is None:
             self.code = str(uuid.uuid4())
-        super(PersonIntension, self).save()
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.code
