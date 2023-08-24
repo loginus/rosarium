@@ -96,6 +96,7 @@ def send_mail(subject, content, from_addres, to_address):
     new_message.content = content
     new_message.from_addres = from_addres
     new_message.to_address = to_address
+    new_message.reply_to = 'Rosarium.Mariae.Eroza@gmail.com'
     new_message.save()
 
 

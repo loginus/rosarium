@@ -21,6 +21,7 @@ from django.contrib.auth import decorators
 from rosary.models import PersonIntension, Intension
 from django.template.defaultfilters import date
 from django.utils import translation
+from unidecode import unidecode
 
 logger = logging.getLogger(__name__)
 
@@ -196,8 +197,9 @@ def _register_pdf_fonts():
 
 def _create_http_response(pdf, title):
     # Create the HttpResponse object with the appropriate PDF headers.
+    decoded_title=unidecode(title)
     response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename="' + title + '.pdf"'
+    response['Content-Disposition'] = 'attachment; filename="' + decoded_title + '.pdf"'
     logger.info("Content-disposition %s" % response['Content-Disposition'])
     response.write(pdf)
     return response
